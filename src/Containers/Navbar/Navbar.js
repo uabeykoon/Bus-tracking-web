@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import Aux from '../../Layout/Aux';
 import './Navbar.css'
 
 class Navbar extends Component {
     render() {
         return (
-            <Aux>
+            <div>
                 <div className="sidenav">
                     <NavLink to="/" exact>DashBoard</NavLink>
                     <NavLink to="/bus">Bus</NavLink>
@@ -16,7 +15,7 @@ class Navbar extends Component {
                     <a href="">Shedule</a>
                     
                 </div>
-            </Aux>
+            </div>
         );
     }
 }

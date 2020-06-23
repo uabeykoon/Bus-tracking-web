@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Aux from '../../../Layout/Aux';
 import { withRouter } from 'react-router';
 
 class AddBuss extends Component {
@@ -9,7 +8,7 @@ class AddBuss extends Component {
     }
     render() {
         return (
-            <Aux>
+            <div>
                 <div className="container">
                     <form>
                         <legend>---Vehicle Details---</legend>
@@ -70,7 +69,7 @@ class AddBuss extends Component {
                         <button className="btn btn-danger" type="submit">Cancel</button>
                     </form>
                 </div>
-            </Aux>
+            </div>
 
         );
     }

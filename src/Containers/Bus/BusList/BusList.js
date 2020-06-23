@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import Aux from '../../../Layout/Aux';
 import './BusList.css'
 
 class BusList extends Component {
     render() {
         return (
-            <Aux>
+            <div>
                 <button className="btn btn-primary lg" onClick={() => { this.props.history.push("/bus/addbus") }}>ADD NEW BUS</button>
 
                 <table id="customers">
@@ -65,7 +64,7 @@ class BusList extends Component {
                         <td>France</td>
                     </tr>
                 </table>
-            </Aux>
+            </div>
 
         );
     }

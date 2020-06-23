@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import Aux from '../../Layout/Aux';
 
 class DashBoard extends Component{
     render(){
         return(
-            <Aux>
+            <div>
             <p>this is a DashBoard</p>
             
-            </Aux>
+            </div>
         );
     }
 }
