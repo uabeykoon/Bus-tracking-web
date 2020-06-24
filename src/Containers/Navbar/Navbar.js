@@ -9,10 +9,10 @@ class Navbar extends Component {
                 <div className="sidenav">
                     <NavLink to="/" exact>DashBoard</NavLink>
                     <NavLink to="/bus">Bus</NavLink>
-                    <a href="">Routs</a>
+                    {/* <a href="">Routs</a>
                     <a href="">Bus owners</a>
                     <a href="">Passengers</a>
-                    <a href="">Shedule</a>
+                    <a href="">Shedule</a> */}
                     
                 </div>
             </div>
