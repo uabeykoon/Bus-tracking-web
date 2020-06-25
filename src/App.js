@@ -6,6 +6,7 @@ import Navbar from './Containers/Navbar/Navbar';
 import 'bootstrap/dist/css/bootstrap.css';
 import Bus from './Containers/Bus/Bus';
 import DashBoard from './Containers/DashBoard/DashBoard';
+import RouteM from './Containers/Route/Route'
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <div className="col-md-8">
             <Switch>
               <Route path="/bus" component={Bus} />
+              <Route path="/route" component={RouteM} />
               <Route path="/" component={DashBoard} />
 
             </Switch>

@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 
-class RouteList extends Component{
+class TimeTable extends Component{
     render(){
         return(
             <div>
-            <p>this is a RouterList</p>
+            <p>this is a TimeTable</p>
             
             </div>
         );
     }
 }
 
-export default RouteList;
+export default TimeTable;
