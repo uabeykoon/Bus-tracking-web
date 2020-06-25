@@ -14,10 +14,10 @@ function App() {
       <div className="App">
         <div className='container-fuid'>
           <div className="row">
-            <div className="col-md-4">
+            <div className="col-md-3">
               <Navbar />
             </div>
-            <div className="col-md-8">
+            <div className="col-md-9">
             <Switch>
               <Route path="/bus" component={Bus} />
               <Route path="/route" component={RouteM} />

@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 
 class AddRoute extends Component {
+
+
+    state = {
+        destination:[{id:1,name:"dikwella"},{id:2,name:"matara"}]
+    }
+
     render() {
         return (
             <div>
@@ -8,26 +14,25 @@ class AddRoute extends Component {
                     <legend>---ADD ROUTE---</legend>
                     <div className="form-row">
                         <div className="col-md-6 mb-3">
-                            <label for="validationDefault01">Route Number</label>
+                            <label>Route Number</label>
                             <input type="text" className="form-control" placeholder="Route Number " required name="routeNumber" />
                         </div>
                     </div>
                     <div className="form-row">
                         <div className="col-md-6 mb-3">
-                            <label for="exampleFormControlSelect1">Destination 1</label>
-                            <select class="form-control" id="exampleFormControlSelect1" name="destination1">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
+                            <label>Destination 1</label>
+                            <select className="form-control" id="exampleFormControlSelect1" name="destination1">
+                                {this.state.destination.map((x)=>{
+                                    return (<option value={x.id} key={x.id}>{x.name}</option>);
+                                })}
+
                             </select>
                         </div>
                     </div>
                     <div className="form-row">
                         <div className="col-md-6 mb-3">
-                            <label for="exampleFormControlSelect1">Destination 2</label>
-                            <select class="form-control" id="exampleFormControlSelect1" name="destination2">
+                            <label>Destination 2</label>
+                            <select className="form-control" id="exampleFormControlSelect1" name="destination2">
                                 <option>1</option>
                                 <option>2</option>
                                 <option>3</option>
@@ -38,16 +43,16 @@ class AddRoute extends Component {
                     </div>
                     <div className="form-row">
                         <div className="col-md-3 mb-3">
-                            <label for="validationDefault01">Estimated Time</label>
+                            <label>Estimated Time</label>
                         </div>
                     </div>
                     <div className="form-row">
                         <div className="col-md-3 mb-3">
-                            <label for="validationDefault01">Hours</label>
+                            <label>Hours</label>
                             <input type="text" className="form-control" placeholder="Route Number " required name="estTimeHour" />
                         </div>
                         <div className="col-md-3 mb-3">
-                            <label for="validationDefault01">Minutes</label>
+                            <label>Minutes</label>
                             <input type="text" className="form-control" placeholder="Route Number " required name="estTimeMinute" />
                         </div>
                     </div>
