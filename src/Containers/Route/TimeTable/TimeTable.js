@@ -4,7 +4,7 @@ import './Timetable.css'
 class TimeTable extends Component {
 
     state = {
-        route: [138, 195]
+        route: ["138/Colombo-Maharagama", "01/Colombo-Kandy"]
     }
 
     render() {

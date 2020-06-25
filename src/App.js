@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Bus from './Containers/Bus/Bus';
 import DashBoard from './Containers/DashBoard/DashBoard';
 import RouteM from './Containers/Route/Route'
+import Schedule from './Containers/Schedule/Schedule';
 
 function App() {
   return (
@@ -18,19 +19,20 @@ function App() {
               <Navbar />
             </div>
             <div className="col-md-9">
-            <Switch>
-              <Route path="/bus" component={Bus} />
-              <Route path="/route" component={RouteM} />
-              <Route path="/" component={DashBoard} />
+              <Switch>
+                <Route path="/schedule" component={Schedule} />
+                <Route path="/bus" component={Bus} />
+                <Route path="/route" component={RouteM} />
+                <Route path="/" component={DashBoard} />
 
-            </Switch>
+              </Switch>
+            </div>
           </div>
-          </div>
-         
+
         </div>
       </div>
 
-    
+
     </BrowserRouter >
 
   );
