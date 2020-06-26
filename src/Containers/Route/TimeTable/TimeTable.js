@@ -9,8 +9,23 @@ class TimeTable extends Component {
         route: ["138/Colombo-Maharagama", "01/Colombo-Kandy"],
         routeList: [],
         stationList: [],
-        routerListWithAllAttrib: []
+        routerListWithAllAttrib: [],
+        selectedRoute: null
     };
+
+    onRouteSelecting = (event) => {
+        console.log(event.target.value)
+        this.setState({
+            selectedRoute: event.target.value
+        });
+    }
+
+    onTime1Change = (event) => {
+        console.log(event.target.value);
+    }
+    onTime2Change = (event) => {
+        console.log(event.target.value);
+    }
 
     findRelatedStation = (id) => {
         return this.state.stationList.find((el) => el.id === id);
@@ -62,6 +77,20 @@ class TimeTable extends Component {
     }
 
     render() {
+
+        const input1 = this.state.selectedRoute === "0" || this.state.selectedRoute === null ? null : (<div className="input-group mb-3">
+            <input type="time" className="form-control" aria-describedby="basic-addon2" onChange={this.onTime1Change} />
+            <div className="input-group-append">
+                <button className="btn btn-success" type="button">ADD TIME</button>
+            </div>
+        </div>);
+
+        const input2 = this.state.selectedRoute === "0" || this.state.selectedRoute === null ? null : (<div className="input-group mb-3">
+            <input type="time" className="form-control" aria-describedby="basic-addon2" onChange={this.onTime2Change} />
+            <div className="input-group-append">
+                <button className="btn btn-success" type="button">ADD TIME</button>
+            </div>
+        </div>);
         return (
             <div className="container-fluid">
                 <div className="row">
@@ -70,7 +99,8 @@ class TimeTable extends Component {
                         <br />
                         <h1>Select Route</h1>
 
-                        <select className="form-control" name="destination1">
+                        <select className="form-control" name="destination1" onChange={this.onRouteSelecting}>
+                            <option value={0}>Select Route</option>
                             {this.state.routerListWithAllAttrib.map((route) => {
                                 return (<option value={route.id} key={route.id}>{route.routeNumber}/{route.destination1.stationName}-{route.destination2.stationName}</option>);
                             })}
@@ -84,6 +114,7 @@ class TimeTable extends Component {
                 <div className="row">
                     <div className="col-md-6">
                         <h4>From Destination 1</h4><br />
+                        {input1}
                         <table id="customers">
                             <thead>
                                 <tr>
@@ -103,6 +134,7 @@ class TimeTable extends Component {
                     </div>
                     <div className="col-md-6">
                         <h4>From Destination 2</h4><br />
+                        {input2}
                         <table id="customers">
                             <thead>
                                 <tr>
