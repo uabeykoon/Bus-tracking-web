@@ -7,28 +7,91 @@ class TimeTable extends Component {
 
     state = {
         route: ["138/Colombo-Maharagama", "01/Colombo-Kandy"],
+        loading: false,
         routeList: [],
         stationList: [],
         routerListWithAllAttrib: [],
-        selectedRoute: null
+        selectedRoute: null,
+        selectedTime1: null,
+        selectedTime2: null,
+        destination1: 'Destination 1',
+        destination2: 'Destination 2'
     };
 
     onRouteSelecting = (event) => {
-        console.log(event.target.value)
+        const routeDetails = this.findRelatedObject(event.target.value, this.state.routerListWithAllAttrib);
         this.setState({
-            selectedRoute: event.target.value
+            selectedRoute: event.target.value,
+            destination1: routeDetails.destination1.stationName,
+            destination2: routeDetails.destination2.stationName,
         });
     }
 
     onTime1Change = (event) => {
-        console.log(event.target.value);
+        this.setState({
+            selectedTime1: event.target.value
+        });
     }
     onTime2Change = (event) => {
-        console.log(event.target.value);
+        this.setState({
+            selectedTime2: event.target.value
+        });
+    }
+
+    storeTimeTableDataInDataBase = (data) => {
+        axios.post("https://bus-track-8b429.firebaseio.com/timeTable.json", data)
+            .then((response) => {
+                console.log(response);
+                this.setState({
+                    loading: false
+                });
+            }).catch((err) => {
+                console.log(err);
+                this.setState({
+                    loading: false
+                });
+            });
+    }
+//fetch time tabel related data from database
+    fetchTimeTableDatafromDataBase = (data) => {
+        axios.get("https://bus-track-8b429.firebaseio.com/timeTable.json")
+            .then((response) => {
+                this.setState({
+                    loading: false
+                });
+            }).catch((err) => {
+                console.log(err);
+                this.setState({
+                    loading: false
+                });
+            });
+    }
+
+
+    onAddTimeButton1Click = (event) => {
+        this.setState({
+            loading: true
+        });
+        const data = {
+            routeID: this.findRelatedRoute(this.state.selectedRoute).id,
+            startingStation: this.findRelatedRoute(this.state.selectedRoute).destination1,
+            departureTime: this.state.selectedTime1
+        };
+        this.storeTimeTableDataInDataBase(data);
+
+    }
+    onAddTimeButton2Click = () => {
+        console.log(this.state.selectedTime2);
     }
 
     findRelatedStation = (id) => {
         return this.state.stationList.find((el) => el.id === id);
+    }
+    findRelatedRoute = (id) => {
+        return this.state.routeList.find((el) => el.id === id);
+    }
+    findRelatedObject = (id, array) => {
+        return array.find((el) => el.id === id);
     }
 
     convertObjectToArray = (incomingObject) => {
@@ -47,7 +110,7 @@ class TimeTable extends Component {
         return newArray;
     }
 
-    componentDidMount() {
+    fetchingAllDataToDisplay = () => {
         axios.get("https://bus-track-8b429.firebaseio.com/route.json")
             .then((response) => {
                 axios.get("https://bus-track-8b429.firebaseio.com/stations.json")
@@ -76,21 +139,34 @@ class TimeTable extends Component {
             });
     }
 
+    componentDidMount() {
+        this.fetchingAllDataToDisplay();
+    }
+
     render() {
 
         const input1 = this.state.selectedRoute === "0" || this.state.selectedRoute === null ? null : (<div className="input-group mb-3">
             <input type="time" className="form-control" aria-describedby="basic-addon2" onChange={this.onTime1Change} />
             <div className="input-group-append">
-                <button className="btn btn-success" type="button">ADD TIME</button>
+                <button className="btn btn-success" type="button" onClick={this.onAddTimeButton1Click}>ADD TIME</button>
             </div>
         </div>);
 
         const input2 = this.state.selectedRoute === "0" || this.state.selectedRoute === null ? null : (<div className="input-group mb-3">
             <input type="time" className="form-control" aria-describedby="basic-addon2" onChange={this.onTime2Change} />
             <div className="input-group-append">
-                <button className="btn btn-success" type="button">ADD TIME</button>
+                <button className="btn btn-success" type="button" onClick={this.onAddTimeButton2Click}>ADD TIME</button>
             </div>
         </div>);
+
+        const loading = this.state.loading ? (<><div className="sk-chase">
+            <div className="sk-chase-dot"></div>
+            <div className="sk-chase-dot"></div>
+            <div className="sk-chase-dot"></div>
+            <div className="sk-chase-dot"></div>
+            <div className="sk-chase-dot"></div>
+            <div className="sk-chase-dot"></div>
+        </div></>) : null;
         return (
             <div className="container-fluid">
                 <div className="row">
@@ -109,12 +185,15 @@ class TimeTable extends Component {
                         <br />
                         <br />
 
+                        {loading}
+
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-md-6">
-                        <h4>From Destination 1</h4><br />
+                        <h4>From {this.state.destination1}</h4><br />
                         {input1}
+
                         <table id="customers">
                             <thead>
                                 <tr>
@@ -133,7 +212,7 @@ class TimeTable extends Component {
                         </table>
                     </div>
                     <div className="col-md-6">
-                        <h4>From Destination 2</h4><br />
+                        <h4>From {this.state.destination2}</h4><br />
                         {input2}
                         <table id="customers">
                             <thead>
