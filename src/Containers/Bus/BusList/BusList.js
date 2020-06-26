@@ -16,9 +16,14 @@ class BusList extends Component {
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Alfreds Futterkiste</td>
-                            <td>Maria Anders</td>
-                            <td>Germany</td>
+                            <td>Samarasekara</td>
+                            <td>138/Maharagama-Colombo</td>
+                            <td>ND-5486</td>
+                        </tr>
+                        <tr>
+                            <td>V-Lion</td>
+                            <td>02/Colombo-Kandy</td>
+                            <td>ND-5586</td>
                         </tr>
                     </tbody>
                 </table>
