@@ -73,8 +73,8 @@ class RouteList extends Component {
                         {this.state.routerListWithAllAttrib.map((routerObject) => {
                             return (<tr key={routerObject.id}>
                                 <td>{routerObject.routeNumber}</td>
-                                <td>{routerObject.destination1.stationName}</td>
-                                <td>{routerObject.destination2.stationName}</td>
+                                <td>{routerObject.destination1.stationName}({routerObject.destination1.district})</td>
+                                <td>{routerObject.destination2.stationName}({routerObject.destination2.district})</td>
                             </tr>);
                         })}
 
