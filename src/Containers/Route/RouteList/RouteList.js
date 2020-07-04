@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Routelist.css';
-import axios from 'axios';
+import axios from '../../../Axios/Axios';
 
 class RouteList extends Component {
     state = {
@@ -30,9 +30,9 @@ class RouteList extends Component {
     }
 
     componentDidMount() {
-        axios.get("https://bus-track-8b429.firebaseio.com/route.json")
+        axios.get("route.json")
             .then((response) => {
-                axios.get("https://bus-track-8b429.firebaseio.com/stations.json")
+                axios.get("stations.json")
                     .then((response2) => {
                 //fetch ad converto to array stations
                         this.setState({

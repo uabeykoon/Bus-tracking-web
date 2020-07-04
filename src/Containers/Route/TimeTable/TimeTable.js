@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Timetable.css';
-import axios from 'axios';
+import axios from '../../../Axios/Axios';
+import TimeTableCharts from './TimeTableCharts/TimeTableCharts';
 
 class TimeTable extends Component {
 
@@ -15,16 +16,23 @@ class TimeTable extends Component {
         selectedTime1: null,
         selectedTime2: null,
         destination1: 'Destination 1',
-        destination2: 'Destination 2'
+        destination2: 'Destination 2',
+        timeList: [],
+        timeList1: [],
+        timeList2: []
     };
 
     onRouteSelecting = (event) => {
+        this.setState({
+            loading: true
+        });
         const routeDetails = this.findRelatedObject(event.target.value, this.state.routerListWithAllAttrib);
         this.setState({
             selectedRoute: event.target.value,
             destination1: routeDetails.destination1.stationName,
             destination2: routeDetails.destination2.stationName,
         });
+        this.fetchTimeTableDatafromDataBase(event.target.value);
     }
 
     onTime1Change = (event) => {
@@ -37,14 +45,15 @@ class TimeTable extends Component {
             selectedTime2: event.target.value
         });
     }
-
+    //add time slot for specific route
     storeTimeTableDataInDataBase = (data) => {
-        axios.post("https://bus-track-8b429.firebaseio.com/timeTable.json", data)
+        axios.post("timeTable.json", data)
             .then((response) => {
                 console.log(response);
                 this.setState({
                     loading: false
                 });
+                this.fetchTimeTableDatafromDataBase(this.state.selectedRoute);
             }).catch((err) => {
                 console.log(err);
                 this.setState({
@@ -52,36 +61,44 @@ class TimeTable extends Component {
                 });
             });
     }
-//fetch time tabel related data from database
-    fetchTimeTableDatafromDataBase = (data) => {
-        axios.get("https://bus-track-8b429.firebaseio.com/timeTable.json")
+    //fetch time tabel slots for related routeID data from database
+    fetchTimeTableDatafromDataBase = (routeID) => {
+        axios.get(`timeTable.json?orderBy="routeID"&equalTo="${routeID}"`)
             .then((response) => {
                 this.setState({
+                    timeList: this.convertObjectToArray(response.data),
                     loading: false
                 });
+                this.divideTimeTableInToTwoDestination(this.state.timeList);
+                
             }).catch((err) => {
                 console.log(err);
-                this.setState({
-                    loading: false
-                });
+
             });
     }
 
-
+    //on click add time button1
     onAddTimeButton1Click = (event) => {
         this.setState({
             loading: true
         });
         const data = {
             routeID: this.findRelatedRoute(this.state.selectedRoute).id,
-            startingStation: this.findRelatedRoute(this.state.selectedRoute).destination1,
+            startingStation: "destination1",
             departureTime: this.state.selectedTime1
         };
         this.storeTimeTableDataInDataBase(data);
-
     }
     onAddTimeButton2Click = () => {
-        console.log(this.state.selectedTime2);
+        this.setState({
+            loading: true
+        });
+        const data = {
+            routeID: this.findRelatedRoute(this.state.selectedRoute).id,
+            startingStation: "destination2",
+            departureTime: this.state.selectedTime2
+        };
+        this.storeTimeTableDataInDataBase(data);
     }
 
     findRelatedStation = (id) => {
@@ -101,6 +118,24 @@ class TimeTable extends Component {
         }
         return newArray;
     }
+    divideTimeTableInToTwoDestination =(timeList)=>{
+        let timeList1=[];
+        let timeList2=[];
+
+        for(let time of timeList){
+            if(time.startingStation==="destination1"){
+                timeList1.push(time);
+            }
+            else if(time.startingStation==="destination2"){
+                timeList2.push(time);
+            }
+        }
+        console.log(timeList1);
+        this.setState({
+            timeList1:timeList1,
+            timeList2:timeList2,
+        });
+    }
 
     combineRelatedObject = () => {
         let newArray = []
@@ -111,9 +146,9 @@ class TimeTable extends Component {
     }
 
     fetchingAllDataToDisplay = () => {
-        axios.get("https://bus-track-8b429.firebaseio.com/route.json")
+        axios.get("route.json")
             .then((response) => {
-                axios.get("https://bus-track-8b429.firebaseio.com/stations.json")
+                axios.get("stations.json")
                     .then((response2) => {
                         //fetch ad converto to array stations
                         this.setState({
@@ -127,7 +162,7 @@ class TimeTable extends Component {
                         this.setState({
                             routerListWithAllAttrib: this.combineRelatedObject()
                         });
-                        console.log(this.state.routerListWithAllAttrib)
+                        //console.log(this.state.routerListWithAllAttrib)
                     })
                     .catch((e) => {
                         console.log(e);
@@ -191,45 +226,10 @@ class TimeTable extends Component {
                 </div>
                 <div className="row">
                     <div className="col-md-6">
-                        <h4>From {this.state.destination1}</h4><br />
-                        {input1}
-
-                        <table id="customers">
-                            <thead>
-                                <tr>
-                                    <th>Route</th>
-                                    <th>Departure Time</th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>138</td>
-                                    <td>8.55 AM</td>
-                                </tr>
-
-                            </tbody>
-                        </table>
+                        <TimeTableCharts destination={this.state.destination1} timeList={this.state.timeList1} input2={input1} />
                     </div>
                     <div className="col-md-6">
-                        <h4>From {this.state.destination2}</h4><br />
-                        {input2}
-                        <table id="customers">
-                            <thead>
-                                <tr>
-                                    <th>Route</th>
-                                    <th>Departure Time</th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>138</td>
-                                    <td>8.55 AM</td>
-                                </tr>
-
-                            </tbody>
-                        </table>
+                        <TimeTableCharts destination={this.state.destination2} timeList={this.state.timeList2} input2={input2} />
                     </div>
                 </div>
 
