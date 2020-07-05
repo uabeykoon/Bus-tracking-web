@@ -15,6 +15,8 @@ class AddBuss extends Component {
         //console.log(this.props);
         this.fetchingAllDataToDisplay();
         //console.log(this.state.routerListWithAllAttrib);
+       
+   
 
     }
 
@@ -37,7 +39,7 @@ class AddBuss extends Component {
                         });
                         //console.log(this.state.routerListWithAllAttrib)
                         // console.log(this.state.stationList);
-                        // console.log(this.state.routerListWithAllAttrib)
+                         console.log(this.state.routerListWithAllAttrib)
                     })
                     .catch((e) => {
                         console.log(e);
@@ -77,70 +79,64 @@ class AddBuss extends Component {
         return (
             <div>
                 <div className="container">
-                    <form>
-                        <legend>---Vehicle Details---</legend>
-                        <div className="col-md-3 mb-3">
-                            <label>Owner ID </label>
-                            <select className="custom-select" id="validationDefault01" required>
-                                <option disabled value="">Choose Owner ID</option>
-                            </select>
-                        </div>
+                    <button type="button" className="btn btn-success" onClick={this.onClickAddNewOwner}>Success</button>
+                    <form onSubmit={this.onClickSubmit}>
+                        <legend>---ADD BUS---</legend>
+
                         <div className="form-row">
                             <div className="col-md-6 mb-3">
-                                <label>Registration Number</label>
-                                <input type="text" className="form-control" id="validationDefault02" placeholder="Registration Number" required />
+                                <label>Name</label>
+                                <input type="text" className="form-control" placeholder="Name" required onChange={this.onChangeFirstName} />
                             </div>
                         </div>
-                        <div className="col-md-3 mb-3">
-                            <label>Scanned image of the registered vehicle permit </label>
-                            <select className="custom-select" id="validationDefault03" required>
-                                <option disabled value="">Choose...</option>
-                            </select>
-                        </div>
+
                         <div className="form-row">
                             <div className="col-md-6 mb-3">
-                                <label>Route permit number</label>
-                                <input type="text" className="form-control" id="validationDefault07" placeholder="Route permit number" required />
+                                <label>Number Plate</label>
+                                <input type="text" className="form-control" placeholder="Number Plate" required onChange={this.onChangeLastName} />
                             </div>
                         </div>
-                        <div className="col-md-3 mb-3">
-                            <label>Scanned image of the route permit </label>
-                            <select className="custom-select" id="validationDefault04" required>
-                                <option disabled value="">Choose...</option>
-                            </select>
-                        </div>
+
                         <div className="form-row">
                             <div className="col-md-6 mb-3">
-                                <label>Route Number</label>
-                                <select className="form-control form-control-md">
-                                    <option value="">Large select</option>
-                                    {this.state.routerListWithAllAttrib.map((route) => {
-                                        return (<option value={route.id} key={route.id}>{route.routeNumber}/{route.destination1.stationName}-{route.destination2.stationName}</option>);
+                                <label>Route</label>
+                                <select className="form-control">
+                                    {this.state.routerListWithAllAttrib.map((route)=>{
+                                        return (<option key={route.id}>{route.routeNumber}/{route.destination1.stationName}-{route.destination2.stationName}</option>);
                                     })}
+                                    
                                 </select>
-                                {/* <label for="validationDefault05">Route Number</label>
-                                <input type="text" className="form-control" id="validationDefault05" value="" placeholder="Route Number" required /> */}
                             </div>
                         </div>
+
                         <div className="form-row">
                             <div className="col-md-6 mb-3">
-                                <label >Seating Capacity</label>
-                                <input type="text" className="form-control" id="validationDefault06" placeholder="Number of seats" required />
+                                <label>Bus Owner</label>
+                                <select className="form-control">
+                                    <option>Default select</option>
+                                </select>
                             </div>
                         </div>
+
                         <div className="form-row">
                             <div className="col-md-6 mb-3">
                                 <label>Start Station</label>
-                                <input type="text" className="form-control" id="validationDefault07" placeholder="Start" required />
-                            </div>
-                            <div className="col-md-6 mb-3">
-                                <label>End Station</label>
-                                <input type="text" className="form-control" id="validationDefault08" placeholder="End" required />
+                                <select className="form-control">
+                                    <option>Default select</option>
+                                </select>
                             </div>
                         </div>
-                        <button className="btn btn-primary" type="submit">Submit form</button>
+
+                        <div className="form-row">
+                            <div className="col-md-6 mb-3">
+                                <label>Seat Count</label>
+                                <input type="text" className="form-control" placeholder="Seat Count" required onChange={this.onChangeAddressLine3} />
+                            </div>
+                        </div>
+
+                        <button className="btn btn-primary" type="submit" >ADD BUS</button>
                         |
-                        <button className="btn btn-danger" type="submit">Cancel</button>
+                        <button className="btn btn-danger" type="submit">CANCEL</button>
                     </form>
                 </div>
             </div>

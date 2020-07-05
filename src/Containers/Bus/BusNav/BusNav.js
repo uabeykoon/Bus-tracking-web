@@ -8,6 +8,7 @@ class BusNav extends Component {
                 <nav className="nav nav-pills nav-fill">
                     <NavLink to="/bus" exact className="nav-item nav-link">Bus List</NavLink>
                     <NavLink to="/bus/addbus" className="nav-item nav-link">Add Bus</NavLink>
+                    <NavLink to="/bus/busowners" className="nav-item nav-link">Bus Owners</NavLink>
                 </nav>
             </div>
         );

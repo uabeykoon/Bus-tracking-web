@@ -3,6 +3,7 @@ import BusList from './BusList/BusList';
 import { Route, Switch } from 'react-router-dom';
 import AddBuss from './AddBus/AddBuss';
 import BusNav from './BusNav/BusNav';
+import BusOwners from './BusOwners/BusOwners';
 
 class Bus extends Component {
 
@@ -23,6 +24,7 @@ class Bus extends Component {
                         <div className="col-md-12">
                             <Switch>
                                 <Route path={this.props.match.url + "/addbus"} exact component={AddBuss} />
+                                <Route path={this.props.match.url + "/busowners"} exact component={BusOwners} />
                                 <Route path="" exact component={BusList} />
                             </Switch>
                         </div>
