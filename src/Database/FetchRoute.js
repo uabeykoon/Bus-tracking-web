@@ -51,3 +51,4 @@ const findRelatedStation = (id) => {
 }
 
 export default fetchingAllDataToDisplay;
+export function findRelatedObject();

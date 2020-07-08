@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import axios from '../../../Axios/Axios';
 import './Addroute.css';
 
 class AddRoute extends Component {
@@ -12,8 +12,9 @@ class AddRoute extends Component {
         destination2: null,
         estTimeHours: null,
         estTimeMinutes: null,
-        validate:true,
-        loading:false
+        validate: true,
+        loading: false,
+        error:false
 
 
     }
@@ -49,6 +50,7 @@ class AddRoute extends Component {
 
 
     onSubmit = (e) => {
+        let validate = true;
         e.preventDefault();
         const data = {
             routeNumber: this.state.routeNumber,
@@ -58,19 +60,17 @@ class AddRoute extends Component {
             estTimeMinutes: this.state.estTimeMinutes
         }
         console.log(data)
-        for(let x in data){
-            if(data[x]===null || 0){
-                this.setState({
-                    validate:false
-                });
-            }
+        for (let x in data) {
+            if (data[x] === null || 0) {
+                validate=false;
+            } 
         }
 
-        if(this.state.validate){
+        if(validate){
             this.setState({
                 loading:true
             });
-            axios.post("https://bus-track-8b429.firebaseio.com/route.json",data)
+            axios.post("route.json",data)
         .then((response)=>{
             console.log(response);
             this.setState({
@@ -82,12 +82,17 @@ class AddRoute extends Component {
             console.log(err);
         }); 
         }
+        else{
+            this.setState({
+                error:true
+            });
+        }
 
-    
+
     }
 
     componentDidMount() {
-        axios.get("https://bus-track-8b429.firebaseio.com/stations.json")
+        axios.get("stations.json")
             .then((response) => {
                 let stationsArray = [];
                 for (let key in response.data) {
@@ -100,13 +105,18 @@ class AddRoute extends Component {
     }
 
     render() {
-        const error = this.state.validate?null:(<div className="alert alert-danger" role="alert">
-       Please complete Form before Submit
-      </div>);
+        const errMessage = this.state.error?(<div className="alert alert-danger" role="alert">
+        Somthing went Wrong!
+        </div>):null;
 
-      const spinner = this.state.loading?(<><div className="lds-ring"><div /></div><div></div><div></div></>):null;
+        const error = this.state.validate ? null : (<div className="alert alert-danger" role="alert">
+            Please complete Form before Submit
+        </div>);
+
+        const spinner = this.state.loading ? (<><div className="lds-ring"><div /></div><div></div><div></div></>) : null;
         return (
             <div>
+                {errMessage}
                 <form onSubmit={this.onSubmit}>
                     <legend>---ADD ROUTE---</legend>
                     {spinner}
@@ -132,7 +142,7 @@ class AddRoute extends Component {
                         <div className="col-md-6 mb-3">
                             <label>Destination 2</label>
                             <select className="form-control" id="exampleFormControlSelect1" name="destination2" onChange={this.onChangeDestination2} required>
-                                <option  value={0}>Select Destination</option>
+                                <option value={0}>Select Destination</option>
                                 {this.state.stations.map((x) => {
                                     return (<option value={x.id} key={x.id}>{x.stationName}({x.district})</option>);
                                 })}
@@ -161,7 +171,7 @@ class AddRoute extends Component {
                             <input type="reset" value="RESET" className="btn btn-danger" />
                         </div>
                     </div>
-                    
+
                     {error}
                 </form>
 

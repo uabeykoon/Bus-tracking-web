@@ -8,7 +8,7 @@ import BusOwners from './BusOwners/BusOwners';
 class Bus extends Component {
 
     componentDidMount() {
-        console.log(this.props);
+        //console.log(this.props);
     }
 
     render() {
