@@ -72,7 +72,9 @@ class Schedule extends Component {
 
         }
         this.setState({
-            timeList1: array
+            timeList1: array,
+            selectedRouteTime:routTimeID,
+            selectedBus:event.target.value
         });
     }
 
@@ -80,12 +82,8 @@ class Schedule extends Component {
         console.log(routTimeID);
         console.log(event.target.value);
     }
-    onUpdateButtonClick = (routeTimeID, busID) => {
-        const ob ={
-            routeTimeID:routeTimeID,
-            busID:busID,
-            dayOfMonth:this.state.selectedDate
-        }
+    onUpdateButtonClick = () => {
+        console.log(this.state.selectedRouteTime +"" +this.state.selectedBus)
     }
 
     onGetSheduleButtomClick = () => {
