@@ -43,8 +43,8 @@ class AddBuss extends Component {
     onChangeRoute=(event)=>{
         const startStation = [];
         const route = this.findRelatedObject(event.target.value,this.state.routerListWithAllAttrib);
-        startStation.push(route.destination1);
-        startStation.push(route.destination2);
+        startStation.push({destinationNumber:"destination1",destination:route.destination1});
+        startStation.push({destinationNumber:"destination2",destination:route.destination2});
         this.setState({
             selectedRoute:event.target.value,
             startStation:startStation
@@ -250,7 +250,7 @@ class AddBuss extends Component {
                                 <select className="form-control" onChange={this.onChangeStartStation}>
                                     <option value={0}>Select</option>
                                 {this.state.startStation.map((station)=>{
-                                        return (<option key={station.id} value={station.id}>{station.stationName}</option>);
+                                        return (<option key={station.destination.id} value={station.destinationNumber}>{station.destination.stationName}</option>);
                                     })}
                                 </select>
                             </div>
