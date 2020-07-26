@@ -19,6 +19,8 @@ class Schedule extends Component {
         selectedRouteDestination2: "Destination 2",
         selectedRoute: null,
         selectedDate: null,
+        selectedRouteTime:null,
+        selectedBus:null,
         timeList: [],
         timeList1: [],
         timeList2: [],
@@ -57,26 +59,33 @@ class Schedule extends Component {
         })
     }
 
-    onChangeBusdes1 = (routTimeID,event) =>{
+    onChangeBusdes1 = (routTimeID, event) => {
         console.log(routTimeID);
         let array = [];
-        for(let t of this.state.timeList1){
-            let check = t.id===routTimeID?true:false;
-            if(check){
-                array.push({...t,buttonDisable:false});
-            }else{
-                array.push({...t});
+        for (let t of this.state.timeList1) {
+            let check = t.id === routTimeID ? true : false;
+            if (check) {
+                array.push({ ...t, buttonDisable: false });
+            } else {
+                array.push({ ...t });
             }
-           
+
         }
         this.setState({
-            timeList1:array
+            timeList1: array
         });
     }
 
-    onChangeBusdes2 = (routTimeID,event) =>{
+    onChangeBusdes2 = (routTimeID, event) => {
         console.log(routTimeID);
         console.log(event.target.value);
+    }
+    onUpdateButtonClick = (routeTimeID, busID) => {
+        const ob ={
+            routeTimeID:routeTimeID,
+            busID:busID,
+            dayOfMonth:this.state.selectedDate
+        }
     }
 
     onGetSheduleButtomClick = () => {
@@ -85,7 +94,7 @@ class Schedule extends Component {
             selectedRouteDestination1: routeDetails.destination1.stationName,
             selectedRouteDestination2: routeDetails.destination2.stationName,
         });
-        this.fetchTimeTableDatafromDataBase(this.state.selectedRoute,this.state.selectedDate);
+        this.fetchTimeTableDatafromDataBase(this.state.selectedRoute, this.state.selectedDate);
     }
 
     componentDidMount() {
@@ -161,14 +170,14 @@ class Schedule extends Component {
             });
     }
     //fetch time tabel slots for related routeID data from database
-    fetchTimeTableDatafromDataBase = (routeID,date) => {
+    fetchTimeTableDatafromDataBase = (routeID, date) => {
         axios.get(`timeTable.json?orderBy="routeID"&equalTo="${routeID}"`)
             .then((response) => {
                 axios.get(`shedule.json`)
                     .then((response2) => {
                         this.setState({
                             timeList: this.convertObjectToArray(response.data),
-                            sheduleList:this.convertObjectToArray(response2.data),
+                            sheduleList: this.convertObjectToArray(response2.data),
                             loading: false
                         });
                         console.log(response2.data);
@@ -183,16 +192,21 @@ class Schedule extends Component {
             });
     }
 
+    addSheduleToDatabase = () => {
+
+        axios.post("shedule.json",)
+    }
+
     divideTimeTableInToTwoDestination = (timeList) => {
         let timeList1 = [];
         let timeList2 = [];
 
         for (let time of timeList) {
             if (time.startingStation === "destination1") {
-                timeList1.push({...time,buttonDisable:true});
+                timeList1.push({ ...time, buttonDisable: true });
             }
             else if (time.startingStation === "destination2") {
-                timeList2.push({...time,buttonDisable:true});
+                timeList2.push({ ...time, buttonDisable: true });
             }
         }
         //console.log(timeList2);
@@ -323,10 +337,10 @@ class Schedule extends Component {
                 </div>
                 <div className="row">
                     <div className="col-md-6">
-                        <SingleDateSheduleChart destination={this.state.selectedRouteDestination1} timeList={this.state.timeList1} busList={this.state.busList} onChangeBus={this.onChangeBusdes1}/>
+                        <SingleDateSheduleChart destination={this.state.selectedRouteDestination1} timeList={this.state.timeList1} busList={this.state.busList} onChangeBus={this.onChangeBusdes1} onClickUpdate={this.onUpdateButtonClick} />
                     </div>
                     <div className="col-md-6">
-                        <SingleDateSheduleChart destination={this.state.selectedRouteDestination2} timeList={this.state.timeList2} busList={this.state.busList} onChangeBus={this.onChangeBusdes2}/>
+                        <SingleDateSheduleChart destination={this.state.selectedRouteDestination2} timeList={this.state.timeList2} busList={this.state.busList} onChangeBus={this.onChangeBusdes2} />
 
                     </div>
 

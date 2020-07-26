@@ -27,7 +27,7 @@ const SingleDateSheduleChart = (props) => {
                                     
                                 </select>
                                 </td>
-                                <td><button className="btn btn-primary" disabled={time.buttonDisable}>Update</button></td>
+                                <td><button className="btn btn-primary" disabled={time.buttonDisable} onClick={()=>props.onClickUpdate(time.id)}>Update</button></td>
                         </tr>);
                     })}
                 </tbody>
