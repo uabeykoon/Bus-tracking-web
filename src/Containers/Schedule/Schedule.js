@@ -67,7 +67,7 @@ class Schedule extends Component {
             if (check) {
                 array.push({ ...t, buttonDisable: false });
             } else {
-                array.push({ ...t });
+                array.push({ ...t, buttonDisable:true});
             }
 
         }
