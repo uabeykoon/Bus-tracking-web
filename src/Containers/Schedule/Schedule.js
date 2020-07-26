@@ -58,7 +58,7 @@ class Schedule extends Component {
     }
 
     onChangeBusdes1 = (routTimeID,event) =>{
-        //console.log(routTimeID);
+        console.log(routTimeID);
         let array = [];
         for(let t of this.state.timeList1){
             let check = t.id===routTimeID?true:false;
